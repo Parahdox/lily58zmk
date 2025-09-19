@@ -55,16 +55,16 @@
         raise_layer {
 // ----------------------------------------------------------------------------------------------------------------------------
 // | BTCLR  |  BT1    |  BT2    |   BT3   |   BT4   |   BT5   |                  |         |        |         |         |         |       |
-// | EXTPWR | RGB_HUD | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                  |         |   UP   |         |         |         |       |
+// | EXTPWR | RGB_HUD | RGB_HUI | RGB_SAD | RGB_SAI | RGB_EFF |                  |         |   UP   |         |         |    +    |   =   |
 // |        | RGB_BRD | RGB_BRI |         |         |         |                  |  LEFT   |  DOWN  |  RIGHT  |         |         |       |
 // |        |         |         |         |         |         | RGB_TOG | |      | VOL_UP  | VOL_DN | PRV_SNG | NXT_SNG |         |       |
 //                              |         |         |         |         | |      | PLY_PSE |        |         |      
             display-name = "Rai";
             bindings = <
-&bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                     &trans       &trans       &trans      &trans     &trans     &trans
-&ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                  &trans       &kp UP       &trans      &trans     &trans     &trans
-&trans            &rgb_ug RGB_BRD &rgb_ug RGB_BRI &trans           &trans         &trans                           &kp LEFT     &kp DOWN     &kp RIGHT   &trans     &trans     &trans
-&trans            &trans          &trans          &trans           &trans         &trans        &trans     &trans  &kp C_VOL_UP &kp C_VOL_DN &kp C_PREV  &kp C_NEXT &trans     &trans
+&bt BT_CLR        &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4                     &trans       &trans       &trans      &trans     &trans       &trans
+&ext_power EP_TOG &rgb_ug RGB_HUD &rgb_ug RGB_HUI &rgb_ug RGB_SAD &rgb_ug RGB_SAI &rgb_ug RGB_EFF                  &trans       &kp UP       &trans      &trans     &kp PLUS     &kp EQUAL
+&trans            &rgb_ug RGB_BRD &rgb_ug RGB_BRI &trans           &trans         &trans                           &kp LEFT     &kp DOWN     &kp RIGHT   &trans     &trans       &trans
+&trans            &trans          &trans          &trans           &trans         &trans        &trans     &trans  &kp C_VOL_UP &kp C_VOL_DN &kp C_PREV  &kp C_NEXT &trans       &trans
                                                   &trans           &trans         &trans        &trans     &trans  &kp C_PP     &trans       &trans
             >;
 
