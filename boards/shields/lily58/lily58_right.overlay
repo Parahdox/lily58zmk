@@ -1,62 +1,60 @@
-#include "lily58-layouts.dtsi"
+#include "lily58.dtsi"
 
-/ {
-    chosen {
-        zephyr,display = &oled;
-        zmk,kscan = &kscan0;
-    };
+/* ----------------- Matrix ----------------- */
+&kscan0 {
+    col-gpios = <
+        &pro_micro 19 GPIO_ACTIVE_HIGH
+        &pro_micro 18 GPIO_ACTIVE_HIGH
+        &pro_micro 15 GPIO_ACTIVE_HIGH
+        &pro_micro 14 GPIO_ACTIVE_HIGH
+        &pro_micro 16 GPIO_ACTIVE_HIGH
+        &pro_micro 10 GPIO_ACTIVE_HIGH
+    >;
+};
 
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
-        wakeup-source;
-        row-gpios = <
-            <&pro_micro 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        >;
-        col-gpios = <
-            <&pro_micro 19 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 18 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 15 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
-            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
-        >;
-    };
+/* ----------------- Encoders ----------------- */
+&left_encoder {
+    status = "okay";
+};
 
-    spi3 {
+/* ----------------- RGB UnderGlow ----------------- */
+&spi3 {
+    status = "okay";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        chain-length = <35>;     // Right half LEDs
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
         status = "okay";
-
-        led_strip: ws2812@0 {
-            compatible = "worldsemi,ws2812-spi";
-            reg = <0>;
-            spi-max-frequency = <4000000>;
-            chain-length = <35>;
-            spi-one-frame = <0x70>;
-            spi-zero-frame = <0x40>;
-            color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
-        };
     };
+};
 
-    pro_micro_i2c: i2c0 {
+/* ----------------- OLED ----------------- */
+&pro_micro_i2c {
+    status = "okay";
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;            // Right half I2C
+        width = <128>;
+        height = <32>;
+        segment-remap;
+        com-invdir;
+        com-sequential;
+        inversion-on;
+        prechargep = <0x22>;
         status = "okay";
-
-        oled: ssd1306@3c {
-            compatible = "solomon,ssd1306fb";
-            reg = <0x3c>;
-            width = <128>;
-            height = <32>;
-            multiplex-ratio = <31>;
-            inversion-on;
-            prechargep = <0x22>;
-        };
     };
+};
 
+/* ----------------- Chosen ----------------- */
+{
     chosen {
         zmk,underglow = &led_strip;
-        zephyr,display= &oled;
+        zephyr,display = &oled;
     };
 };
